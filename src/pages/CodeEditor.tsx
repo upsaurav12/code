@@ -3,7 +3,7 @@ import { Editor } from "@monaco-editor/react";
 
 export const CodeEditor: React.FC = () => {
     const [code, setCode] = useState<string>(
-        '// Write your JavaScript code here\nconsole.log({ key: "value", anotherKey: 123 });'
+        '// Write your JavaScript code here\nconsole.log("Hello World!!!");'
     );
     const [output, setOutput] = useState<string>('');
 
