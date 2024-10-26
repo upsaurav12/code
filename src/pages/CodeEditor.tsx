@@ -31,7 +31,7 @@ export const CodeEditor: React.FC = () => {
 
     return (
         <div className="flex w-full border flex-col items-center p-4 min-h-screen">
-            <h1 className="text-3xl font-bold mb-4 text-center">Your First Code Editor</h1>
+            <h1 className="text-3xl font-bold mb-4 text-center">Your First Code Editor ,Hi</h1>
             <div className="flex w-full max-w-3xl">
                 <div className="editor-container border border-gray-300 rounded-md  h-[60vh] relative">
                     <button
