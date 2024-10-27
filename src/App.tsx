@@ -4,9 +4,9 @@ import { CodeEditor } from './pages/CodeEditor'
 function App() {
 
   return (
-    <>
-      <CodeEditor/>
-    </>
+    <main >
+      <CodeEditor />
+    </main>
   )
 }
 

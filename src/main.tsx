@@ -4,6 +4,7 @@ import { RouterProvider , createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 
+
 const router = createBrowserRouter([
   {
     path: "/",
