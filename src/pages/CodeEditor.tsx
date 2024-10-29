@@ -10,9 +10,9 @@ const languages = [
 export const CodeEditor: React.FC = () => {
     // State for code of each language
     const [javascript, setJavascript] = useState<string>('//Javascript Code');
-    const [htmlcode, setHtml] = useState<string>('');
+    const [htmlcode, setHtml] = useState<string>('<!-- HTML Code -->');
     const [toggle , setToggle] = useState<boolean>(false);
-    const [csscode, setCss] = useState<string>('');
+    const [csscode, setCss] = useState<string>('/* CSS Code */');
     const [selectedLanguage, setSelectedLanguage] = useState<string>('');
     const [code, setCode] = useState<string>('');
     const [jsoutput, setJsOutput] = useState<string>('')
@@ -112,20 +112,20 @@ export const CodeEditor: React.FC = () => {
     return (
         <main className="rounded-[1rem] w-[98%] m-auto h-[98vh] mt-2">
             <div className="buttons flex w-4/12 justify-around">
-                <button className="relative t-0 r-0 border w-[100px] h-[30px]" style={{cursor: toggle ? 'not-allowed' : 'pointer'}} onClick={handleExecution}>Run</button>
+                <button className="relative t-0 r-0 border w-[100px] h-[45px] rounded-[0.6rem] hover:bg-sky-500 hover:text-white transition delay-200 ease-out hover:ease-in" style={{cursor: toggle ? 'not-allowed' : 'pointer'}} onClick={handleExecution}>Run</button>
                 <ul className="flex justify-around w-9/12">
                     {languages.map((val, idx) => (
-                        <li className="border px-[20px] rounded" onClick={() => handleClick(val.language)} key={idx}>
-                            <button>{val.language}</button>
+                        <li className="border px-[20px] rounded flex items-center" onClick={() => handleClick(val.language)} key={idx}>
+                            <button>{val.language.toUpperCase()}</button>
                         </li>
                     ))}
                 </ul>
             </div>
-            <div className="editor-execution flex h-[95%] w-full">
-                <div className="code-editor border-r-4 border-black w-full">
+            <div className="editor-execution border-2 rounded-[0.4rem] mt-2 flex h-[94%] w-full">
+                <div className="code-editor border-r border-black w-full">
                     <div className="editor-container mt-4">
                         <Editor
-                            height="100vh"
+                            height="90vh"
                             language={selectedLanguage}
                             value={code}
                             onChange={(newcode) => handleCode(selectedLanguage , newcode)}
@@ -133,7 +133,7 @@ export const CodeEditor: React.FC = () => {
                     </div>
                 </div>
                 <div className="execution-container w-full">
-                    <div className="container h-[400px] w-full h-screen border">
+                    <div className="container h-[400px] w-full h-screen">
                         <iframe
                             srcDoc={toggle ? doc : jsoutput}
                             title="preview"
@@ -141,7 +141,7 @@ export const CodeEditor: React.FC = () => {
                             frameBorder="0"
                             width="100%"
                             height="100%"
-                            className="border"
+                            className=""
                         />
                     </div>
                 </div>
