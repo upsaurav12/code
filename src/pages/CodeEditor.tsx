@@ -9,21 +9,63 @@ const languages = [
 
 export const CodeEditor: React.FC = () => {
     // State for code of each language
-    const [javascript, setJavascript] = useState<string>('');
+    const [javascript, setJavascript] = useState<string>('//Javascript Code');
     const [htmlcode, setHtml] = useState<string>('');
+    const [toggle , setToggle] = useState<boolean>(false);
     const [csscode, setCss] = useState<string>('');
     const [selectedLanguage, setSelectedLanguage] = useState<string>('');
     const [code, setCode] = useState<string>('');
+    const [jsoutput, setJsOutput] = useState<string>('')
     const [doc, setDocument] = useState<string>('');
 
     // Effect to update the iframe document whenever code changes
 
+    const handleExecution = () => {
+        // Save the original console.log function
+        const originalLog = console.log;
+        
+        // Override console.log to capture messages and add them to the output
+        console.log = (...messages) => {
+            setJsOutput((prev) => prev + messages.join(" ") + "\n"); // Append each log to jsOutput
+            originalLog(...messages); // Call the original console.log so logs appear in the console as well
+        };
+        
+        // Clear previous output for a fresh run
+        setJsOutput('');
+        
+        try {
+            // Evaluate the JavaScript code
+            const result = eval(javascript); 
+            
+            // If there's a result, display it in jsOutput
+            if (result !== undefined) {
+                setJsOutput((prev) => prev + `Result: ${result}\n`);
+            }
+        } catch (error) {
+            // Catch and display any errors
+            console.error('Error:', error);
+            setJsOutput((prev) => prev + "Error: " + error + "\n");
+        } finally {
+            // Restore original console.log function
+            console.log = originalLog;
+        }
+    };
+    
+
     const handleClick = (lang: string) => {
         // Save current code based on selected language
         setSelectedLanguage(lang);
-        if (lang === 'javascript') setCode(javascript);
-        else if (lang === 'html') setCode(htmlcode);
-        else if (lang === 'css') setCode(csscode);
+        if (lang === 'javascript') {
+            setCode(javascript)
+            setToggle(!toggle);
+            console.log(toggle)
+        }
+        else if (lang === 'html') {
+            setCode(htmlcode)
+        }
+        else if (lang === 'css') {
+            setCode(csscode)
+        };
         
     };
 
@@ -70,7 +112,7 @@ export const CodeEditor: React.FC = () => {
     return (
         <main className="rounded-[1rem] w-[98%] m-auto h-[98vh] mt-2">
             <div className="buttons flex w-4/12 justify-around">
-                <button className="relative t-0 r-0 border w-[100px] h-[30px]" onClick={() => console.log("Run button clicked!")}>Run</button>
+                <button className="relative t-0 r-0 border w-[100px] h-[30px]" style={{cursor: toggle ? 'not-allowed' : 'pointer'}} onClick={handleExecution}>Run</button>
                 <ul className="flex justify-around w-9/12">
                     {languages.map((val, idx) => (
                         <li className="border px-[20px] rounded" onClick={() => handleClick(val.language)} key={idx}>
@@ -80,10 +122,10 @@ export const CodeEditor: React.FC = () => {
                 </ul>
             </div>
             <div className="editor-execution flex h-[95%] w-full">
-                <div className="code-editor border-r-2 border-black w-full">
+                <div className="code-editor border-r-4 border-black w-full">
                     <div className="editor-container mt-4">
                         <Editor
-                            height="60vh"
+                            height="100vh"
                             language={selectedLanguage}
                             value={code}
                             onChange={(newcode) => handleCode(selectedLanguage , newcode)}
@@ -93,7 +135,7 @@ export const CodeEditor: React.FC = () => {
                 <div className="execution-container w-full">
                     <div className="container h-[400px] w-full h-screen border">
                         <iframe
-                            srcDoc={doc}
+                            srcDoc={toggle ? doc : jsoutput}
                             title="preview"
                             sandbox="allow-scripts"
                             frameBorder="0"
