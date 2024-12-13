@@ -78,6 +78,8 @@ export const CodeEditor: React.FC = () => {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Preview</title>
                     <style>${csscode}</style>
+                    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+                    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
                 </head>
                 <body>
                     ${htmlcode}
