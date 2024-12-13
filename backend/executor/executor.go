@@ -22,10 +22,17 @@ func Execute(language string, code []byte, input string) (string, string) {
 	switch language {
 	case "go":
 		fileName = "main.go"
-		dockerFiles = "dockerfiles/Dockerfile"
+		dockerFiles = "dockerfiles/go/Dockerfile"
 		err = os.WriteFile(tempDir+"/"+fileName, code, 0644)
 		if err != nil {
 			return "", "Error writing Go code to file"
+		}
+	case "cpp":
+		fileName = "main.cpp"
+		dockerFiles = "dockerfiles/cpp/Dockerfile"
+		err = os.WriteFile(tempDir+"/"+fileName, code, 0644)
+		if err != nil {
+			return "", "Error while writing cpp code to the file"
 		}
 	default:
 		return "", "Unsupported language"
